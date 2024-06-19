@@ -57,7 +57,6 @@ def capture_center_region(scale=0.2):
 while True:
     # 捕获屏幕中心区域图像
     im2, w, h = capture_center_region()
-    print(f"Screen size: {w} x {h}")
 
     # 创建透明画布
     transparent_canvas = np.zeros((h, w, 4), dtype=np.uint8)
