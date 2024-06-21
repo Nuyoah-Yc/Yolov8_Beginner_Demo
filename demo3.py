@@ -85,8 +85,6 @@ while True:
 
 
     if right_button_down:
-        # 创建透明画布
-        transparent_canvas = np.zeros((h, w, 4), dtype=np.uint8)
 
         # 开始计时
         t1 = time.time()
@@ -107,25 +105,18 @@ while True:
         # 处理并打印每个检测结果
         for image_result in results:
             names = image_result.names
-            cls_array = image_result.boxes.cls.cpu().numpy().astype("uint32")  # 类别索引
+            # cls_array = image_result.boxes.cls.cpu().numpy().astype("uint32")  # 类别索引
             xyxy_array = image_result.boxes.xyxy.cpu().numpy().astype("uint32")  # 坐标
-            conf_array = image_result.boxes.conf.cpu().numpy().astype("float")  # 置信度
+            # conf_array = image_result.boxes.conf.cpu().numpy().astype("float")  # 置信度
 
-            for i in range(len(cls_array)):
-                class_index = cls_array[i]
-                class_name = names[class_index]
-                class_score = conf_array[i]
-                box = xyxy_array[i]
+            # # 计算中心点坐标
+            center_x = (xyxy_array[0][0] + xyxy_array[0][2]) // 2
+            center_y = (xyxy_array[0][1] + xyxy_array[0][3]) // 2
+            # 计算相对中心点坐标
+            rel_center_x = center_x - center_w_x
+            rel_center_y = center_y - center_h_y
 
-                # 计算中心点坐标
-                center_x = (box[0] + box[2]) // 2
-                center_y = (box[1] + box[3]) // 2
-
-                # 计算相对中心点坐标
-                rel_center_x = center_x - center_w_x
-                rel_center_y = center_y - center_h_y
-
-                print(f"\r{class_name}: ({rel_center_x}, {rel_center_y}) {class_score:.2f}")
+            print(rel_center_x, rel_center_y,end="")
 
 
 
