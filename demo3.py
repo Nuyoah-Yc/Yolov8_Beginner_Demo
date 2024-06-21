@@ -28,7 +28,7 @@ main_monitor = monitors[0]
 
 # 连接到服务器scoket对象
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('127.0.0.1', 8080))  # 连接到服务器
+s.connect(('10.11.12.15', 9999))  # 连接到服务器
 
 
 def capture_center_region(scale=0.2):
