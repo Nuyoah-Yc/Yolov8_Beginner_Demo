@@ -1,4 +1,7 @@
+import socket
 import time
+
+
 import torch
 import numpy as np
 from PIL import Image
@@ -22,6 +25,10 @@ monitors = screeninfo.get_monitors()
 
 # 选择主显示器（通常是第一个显示器）
 main_monitor = monitors[0]
+
+# 连接到服务器scoket对象
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(('127.0.0.1', 8080))  # 连接到服务器
 
 
 def capture_center_region(scale=0.2):
@@ -116,7 +123,11 @@ while True:
             rel_center_x = center_x - center_w_x
             rel_center_y = center_y - center_h_y
 
-            print(rel_center_x, rel_center_y,end="")
+            print(str(rel_center_x), str(rel_center_y),end="")
+
+            # 发送数据到服务器
+            data_json = {"x": rel_center_x, "y": rel_center_y}
+            s.send(str(data_json).encode())
 
 
 
