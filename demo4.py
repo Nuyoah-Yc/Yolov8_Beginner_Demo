@@ -1,3 +1,4 @@
+import json
 import socket
 import time
 import torch
@@ -19,10 +20,6 @@ class ScreenObjectDetector:
         # 设置服务器连接
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((ip, port))
-
-    def on_click(self, x, y, button, pressed):
-        if button == mouse.Button.right:
-            self.right_button_down = pressed
 
 
     def capture_center_region(self, scale=0.2):
@@ -48,11 +45,13 @@ class ScreenObjectDetector:
                 # 处理检测结果
                 xyxy_array = image_result.boxes.xyxy.cpu().numpy().astype("uint32")
                 if xyxy_array is not None and len(xyxy_array) > 0:
-                    center_x = (xyxy_array[0][0] + xyxy_array[0][2]) // 2 - w // 2
-                    center_y = (xyxy_array[0][1] + xyxy_array[0][3]) // 2 - h // 2
-                    print(f"Detected center: ({center_x}, {center_y})")
+                    center_x = int((xyxy_array[0][0] + xyxy_array[0][2]) // 2 - w // 2)
+                    center_y = int((xyxy_array[0][1] + xyxy_array[0][3]) // 2 - h // 2)
                     data_json = {"x": center_x, "y": center_y}
-                    self.socket.send(str(data_json).encode())
+                    json_str = json.dumps(data_json)
+                    print(f"\rSending JSON: {json_str}",end="")
+                    self.socket.send((json_str + '\n').encode("utf-8"))
+
 
 if __name__ == "__main__":
     detector = ScreenObjectDetector()
