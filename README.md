@@ -1,5 +1,4 @@
-# py_yolo8_pytorch_infer
-* github代码地址：https://github.com/any12345com/py_yolo8_pytorch_infer
+
 
 ### 环境依赖
 
@@ -19,15 +18,9 @@
 
 
 ### 介绍
-* 基于python+pytorch开发的yolo8模型推理服务，直接运行yolo8的pt格式的模型文件，并对外提供图片分析的接口服务
+* 基于python+pytorch开发的yolo8模型自瞄目，可用于cs2,PUBG,CF等游戏的自瞄功能。
 
-### 启动
-~~~
-//启动服务
-python main.py
 
-默认端口: 9702
-~~~
 
 ### 测试
 

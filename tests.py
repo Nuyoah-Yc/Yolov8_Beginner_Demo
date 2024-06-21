@@ -17,6 +17,11 @@ model.to(device)
 # 读取输入图像
 im2 = cv2.imread("data/bus.jpg")
 
+# 计算图像中心的坐标
+center_img_x = im2.shape[1] / 2
+center_img_y = im2.shape[0] / 2
+# 缩放图像，使得短边长度为 608
+print(center_img_x, center_img_y)
 
 t1 = time.time()
 results = model.predict(source=im2, device=device, verbose=False,classes=[0])
@@ -36,6 +41,19 @@ for image_result in results:
     for i in range(len(cls_array)):
         class_index = cls_array[i]
         class_name = names[class_index]
-        class_score = conf_array[i]
-        box = xyxy_array[i]
-        print(i, class_index, class_name, class_score, box)
+        class_score = conf_array[i]  # 置信度
+        box = xyxy_array[i]  # 坐标
+        # print(i, class_index, class_name, class_score, box)
+
+        # 计算边界框的中心点坐标
+        x1, y1, x2, y2 = box
+        center_x = (x1 + x2) / 2
+        center_y = (y1 + y2) / 2
+
+        print(center_x, center_y)
+
+        # 计算偏移量
+        offset_x = center_img_x - center_x
+        offset_y = center_img_y - center_y
+
+        print(offset_x, offset_y)
