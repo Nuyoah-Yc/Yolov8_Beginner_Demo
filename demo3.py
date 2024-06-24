@@ -116,18 +116,20 @@ while True:
             xyxy_array = image_result.boxes.xyxy.cpu().numpy().astype("uint32")  # 坐标
             # conf_array = image_result.boxes.conf.cpu().numpy().astype("float")  # 置信度
 
-            # # 计算中心点坐标
-            center_x = (xyxy_array[0][0] + xyxy_array[0][2]) // 2
-            center_y = (xyxy_array[0][1] + xyxy_array[0][3]) // 2
-            # 计算相对中心点坐标
-            rel_center_x = center_x - center_w_x
-            rel_center_y = center_y - center_h_y
+            # 计算中心点坐标
+            if xyxy_array is not None and len(xyxy_array) > 0:
 
-            print(str(rel_center_x), str(rel_center_y),end="")
+                center_x = (xyxy_array[0][0] + xyxy_array[0][2]) // 2
+                center_y = (xyxy_array[0][1] + xyxy_array[0][3]) // 2
+                # 计算相对中心点坐标
+                rel_center_x = center_x - center_w_x
+                rel_center_y = center_y - center_h_y
 
-            # 发送数据到服务器
-            data_json = {"x": rel_center_x, "y": rel_center_y}
-            s.send(str(data_json).encode())
+                print(str(rel_center_x), str(rel_center_y),end="")
+
+                # 发送数据到服务器
+                data_json = {"x": rel_center_x, "y": rel_center_y}
+                s.send(str(data_json).encode())
 
 
 
