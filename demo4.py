@@ -10,7 +10,7 @@ from pynput.mouse import Controller
 import threading
 
 class ScreenObjectDetector:
-    def __init__(self, model_path='data/yolov8n.pt', ip='10.11.12.17', port=9999):
+    def __init__(self, model_path='data/yolov8n.pt', ip='192.168.120.114', port=9999):
         # 初始化 YOLO 模型
         self.model = YOLO(model_path)
         # 检查并设置设备为 GPU 或 CPU
@@ -74,7 +74,7 @@ class ScreenObjectDetector:
                         print(f"\rSending JSON: {json_str}", end="")
                         self.socket.send((json_str + '\n').encode("utf-8"))
                         # 移动鼠标到目标位置
-                        self.mouse_controller.move(center_x, center_y)
+                        # self.mouse_controller.move(center_x, center_y)
 
 if __name__ == "__main__":
     detector = ScreenObjectDetector()
